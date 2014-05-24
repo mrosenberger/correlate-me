@@ -1,0 +1,8 @@
+{
+  "name": "correlate-me",
+  "version": "0.0.1",
+  "author": "Michael Rosenberger",
+  "dependencies": {
+    "mysql": "*"
+  }
+}
