@@ -1,18 +1,18 @@
-// Required packages:
-var http = require("http");
-var mysql = require("mysql");
+var express = require("express"),
+    cookie = require("cookie-parser"),
+    session = require("express-session");
 
-mysql.
+var app = express();
 
-// Network config object:
-var server_config = {
-	address: "127.0.0.1",
-	port: "80"
-};
+app.use(cookie());
+app.use(session({secret: "sessionsecret512234"}));
 
-// Server initialization:
-http.createServer(function (req, res) {
-    res.writeHead(200, {"Content-Type": "text/plain"});
-    res.end("Hello Node.js\n");
-}).listen(server_config.port, server_config.address);
-console.log("Server running at http://" + server_config.address + ":" + server_config.port + "/");
+app.use("/stylesheets", express.static(__dirname + "/assets/stylesheets"));
+app.use("/scripts", express.static(__dirname + "/scripts/scripts"));
+app.use("/images", express.static(__dirname + "/assets/images"));
+
+app.get("/", function(req, res) {
+  res.send("Welcome to CorrelateMe!");
+});
+
+app.listen(80);
