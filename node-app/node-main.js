@@ -2,6 +2,8 @@
 var http = require("http");
 var mysql = require("mysql");
 
+mysql.
+
 // Network config object:
 var server_config = {
 	address: "127.0.0.1",

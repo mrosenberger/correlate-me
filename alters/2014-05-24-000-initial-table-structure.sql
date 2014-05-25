@@ -6,41 +6,49 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS `question`;
 CREATE TABLE `question` (
-	`id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `unit_type_id` INT(10) UNSIGNED NOT NULL, 
 	`prompt` VARCHAR(256) NOT NULL,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+  FOREIGN KEY (`unit_type_id`) REFERENCES `unit_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `answer`;
 CREATE TABLE `answer` (
-	`id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
-  `value` double NOT NULL,
-  `question_id` INT(10) unsigned NOT NULL,
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `question_id` INT(10) UNSIGNED NOT NULL,
+  `user_id` INT(10) UNSIGNED NOT NULL,
+  `value` DOUBLE NOT NULL,
+  `answered_at` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`question_id`) REFERENCES `question` (`id`)
+  FOREIGN KEY (`question_id`) REFERENCES `question` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `unit`;
 CREATE TABLE `unit` (
-	`id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `unit_type_id` INT(10) UNSIGNED,
+  `value_in_canonical_unit` DOUBLE NOT NULL,
+  `canonical` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`unit_type_id`) REFERENCES `unit_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `unit_type`;
 CREATE TABLE `unit_type` (
-	`id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(256) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-	`id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(256) NOT NULL, 
   `first_name` VARCHAR(256) NOT NULL,
   `last_name` VARCHAR(256) NOT NULL,
   `hashed_password` VARCHAR(256) NOT NULL,
-
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
